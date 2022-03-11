@@ -1,7 +1,7 @@
 version: "3.1"
 services:
   db:
-    image: postgres
+    image: postgres:alpine
     environment:
       POSTGRES_DB: circuitverse_development
       POSTGRES_PASSWORD: postgres
@@ -28,7 +28,7 @@ services:
       - .:/circuitverse
       - ./config/database.docker.yml:/circuitverse/config/database.yml
     ports:
-      - "3000:3000"
+      - "127.0.0.1:8000:3000"
     depends_on:
       - db
       - redis
@@ -36,27 +36,27 @@ services:
     environment:
       REDIS_URL: "redis://redis:6379/0"
       CIRCUITVERSE_USE_SOLR: "false"
-      DOCKER_ENVIRONMENT: 'true'
+      DOCKER_ENVIRONMENT: "true"
   redis:
-    image: redis
-  asset_build:
-    build: .
-    environment:
-      - NODE_ENV=development
-      - RAILS_ENV=development
-    command: yarn build --watch
-    volumes:
-      - .:/circuitverse
-      - /circuitverse/.bundle
-      - /circuitverse/node_modules
-    ports:
-      - '127.0.0.1:3035:3035'
+    image: redis:alpine
+  # asset_build:
+  #   build: .
+  #   environment:
+  #     - NODE_ENV=development
+  #     - RAILS_ENV=development
+  #   command: yarn build --watch
+  #   volumes:
+  #     - .:/circuitverse
+  #     - /circuitverse/.bundle
+  #     - /circuitverse/node_modules
+  #   ports:
+  #     - '127.0.0.1:3035:3035'
 
   mailcatcher:
     image: schickling/mailcatcher
     ports:
-      - '127.0.0.1:1080:1080'
-      - '127.0.0.1:1025:1025'
+      - '127.0.0.1:11080:1080'
+      - '127.0.0.1:11025:1025'
 
 volumes:
   app:
