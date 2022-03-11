@@ -65,7 +65,7 @@ yarn-debug.log*
 .yarn-integrity
 
 # Private key
-config/private.pem
+# config/private.pem
 
 .env
 .eslintcache
